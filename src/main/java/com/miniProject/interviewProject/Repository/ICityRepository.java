@@ -1,18 +1,19 @@
 package com.miniProject.interviewProject.Repository;
 
 import com.miniProject.interviewProject.Entities.City;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ICityRepository {
-
-
-    @Transactional
-    List<City> getAllCities();
+@Repository
+public interface ICityRepository extends JpaRepository<City, Long> {
 
     @Transactional
-    List<String> getAllCityNames();
+    List<City> findAll();
 
-    City getCityById(int cityId);
+    @Transactional
+    City findCityByCityId(int cityId);
+
 }

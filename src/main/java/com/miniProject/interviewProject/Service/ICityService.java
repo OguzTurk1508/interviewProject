@@ -1,12 +1,12 @@
 package com.miniProject.interviewProject.Service;
 
 import com.miniProject.interviewProject.Entities.City;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface ICityService {
 
-    List<City> getAllCities();
-    List<String> getAllCityNames();
-    City getCityById(int cityId);
+    List<City> findAll();
+    City findCityByCityId(int cityId);
 }

@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -15,6 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.when;
 
@@ -32,42 +37,37 @@ class TownControllerTest {
     TownService townService;
 
     @Test
-    public void itShouldGetAllTowns() throws Exception{
-        List<Town> townList = new ArrayList<Town>();
-        Town townA = new Town(1,1,"Karşıyaka");
-        Town townB = new Town(4,2,"Kadıköy");
-        Town townC = new Town(6,3,"Çankaya");
+    public void givenTownId_whenFindTownById_thenFindTownStatusOK() throws Exception{
+        Town town = new Town(1,1,"Buca");
 
+        when(townService.findTownByTownId(1)).thenReturn(town);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(TOWN_URL+"/findById/"+town.getTownId())
+        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name",is(town.getName())));
+    }
+
+    @Test
+    public void givenTowns_whenFindAll_thenFindAllTownsStatusOK() throws Exception{
+        Town townA = new Town(1,1,"Buca");
+        Town townB = new Town(2,1,"Karşıyaka");
+        Town townC = new Town(3,1,"Konak");
+
+        List<Town> townList = new ArrayList<Town>();
         townList.add(townA);
         townList.add(townB);
         townList.add(townC);
 
-        when(townService.getAllTowns()).thenReturn(townList);
+        when(townService.findAll()).thenReturn(townList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(TOWN_URL+"/getAll"))
-                .andExpect(status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.get(TOWN_URL+"/findAll")
+        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(3)))
+                .andExpect(jsonPath("$[0].name",is(townA.getName())))
+                .andExpect(jsonPath("$[1].name",is(townB.getName())))
+                .andExpect(jsonPath("$[2].name",is(townC.getName())));
+
     }
-
-    @Test
-    public void itShouldGetAllTownNames() throws Exception {
-        List<String> townNamesList = new ArrayList<String>();
-        townNamesList.add("Karşıyaka");
-        townNamesList.add("KAdıköy");
-        townNamesList.add("Çankaya");
-
-        when(townService.getAllTownNames()).thenReturn(townNamesList);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(TOWN_URL+"/getAllNames"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void itShouldGetTownById() throws Exception{
-        Town townA = new Town(1,1,"Karşıyaka");
-        when(townService.getTownById(1)).thenReturn(townA);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(TOWN_URL+"/getById/1"))
-                .andExpect(status().isOk());
-    }
-
 }

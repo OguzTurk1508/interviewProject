@@ -28,7 +28,7 @@ public class StudentServiceTest {
     IStudentRepository studentRepository;
 
     @Test
-    public void getAllStudentsTest(){
+    public void findAllStudentsTest(){
         List<Student> studentList = new ArrayList<Student>();
         Student studentA = new Student(1,1,1,
                 "12345678901","Oguz Turk","123");
@@ -41,50 +41,78 @@ public class StudentServiceTest {
         studentList.add(studentB);
         studentList.add(studentC);
 
-        when(studentRepository.getAllStudents()).thenReturn(studentList);
+        when(studentRepository.findAll()).thenReturn(studentList);
 
-        List<Student> testList = studentService.getAllStudents();
+        List<Student> testList = studentService.findAll();
         assertEquals(3,testList.size());
         Assert.assertEquals(1, testList.get(0).getStudentId());
     }
 
     @Test
-    public void getStudentByIdTest(){
+    public void findStudentByIdTest(){
         Student student = new Student(1,1,1,
                 "12345678901","Oguz Turk","123");
 
-        when(studentRepository.getStudentById(1)).thenReturn(student);
+        when(studentRepository.findStudentByStudentId(1)).thenReturn(student);
 
-        Student testStudent = studentService.getStudentById(1);
+        Student testStudent = studentService.findStudentByStudentId(1);
         assertEquals(testStudent.getStudentId(),student.getStudentId());
         assertEquals(testStudent.getName(),student.getName());
     }
 
     @Test
-    public void addStudentTest(){
+    public void findStudentByName(){
         Student student = new Student(1,1,1,
                 "12345678901","Oguz Turk","123");
 
-        studentService.addStudent(student);
+        when(studentRepository.findStudentByName("Oguz Turk")).thenReturn(student);
 
-        verify(studentRepository,times(1)).addStudent(student);
+        Student testStudent = studentService.findStudentByName("Oguz Turk");
+        assertEquals(testStudent.getStudentId(),student.getStudentId());
+        assertEquals(testStudent.getName(),student.getName());
     }
 
     @Test
-    public void updateStudentTest(){
+    public void findStudentByIdentityNumber(){
         Student student = new Student(1,1,1,
                 "12345678901","Oguz Turk","123");
 
-        studentService.updateStudent(student);
+        when(studentRepository.findStudentByIdentityNumber("12345678901")).thenReturn(student);
 
-        verify(studentRepository,times(1)).updateStudent(student);
+        Student testStudent = studentService.findStudentByIdentityNumber("12345678901");
+        assertEquals(testStudent.getStudentId(),student.getStudentId());
+        assertEquals(testStudent.getName(),student.getName());
     }
 
     @Test
-    public void deleteStudentTest(){
-        studentService.deleteStudent(1);
+    public void findStudentByPhoneNumber(){
+        Student student = new Student(1,1,1,
+                "12345678901","Oguz Turk","123");
 
-        verify(studentRepository,times(1)).deleteStudent(1);
+        when(studentRepository.findStudentByPhoneNumber("123")).thenReturn(student);
+
+        Student testStudent = studentService.findStudentByPhoneNumber("123");
+        assertEquals(testStudent.getStudentId(),student.getStudentId());
+        assertEquals(testStudent.getName(),student.getName());
     }
+
+    @Test
+    public void saveStudentTest(){
+        Student student = new Student(1,1,1,
+                "12345678901","Oguz Turk","123");
+
+        studentService.save(student);
+
+        verify(studentRepository,times(1)).save(student);
+    }
+
+    @Test
+    public void deleteStudentByStudentIdTest(){
+        studentService.deleteByStudentId(1);
+
+        verify(studentRepository,times(1)).deleteByStudentId(1);
+    }
+
+
 
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/intProject/student")
 public class StudentController {
@@ -18,28 +19,26 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/add")
-    public void addStudent(@RequestBody Student student){
-        studentService.addStudent(student);
-    }
+    @PostMapping("/save")
+    public Student save(@RequestBody Student student){return studentService.save(student);}
 
-    @PostMapping("/update")
-    public void updateStudent(@RequestBody Student student){
-        studentService.updateStudent(student);
-    }
+    @GetMapping("/findById/{studentId}")
+    public Student findStudentById(@PathVariable int studentId){return studentService.findStudentByStudentId(studentId);}
 
-    @PostMapping("/delete/{studentId}")
-    public void addStudent(@PathVariable int studentId){
-        studentService.deleteStudent(studentId);
-    }
+    @GetMapping("/findByPhoneNumber/{phoneNumber}")
+    public Student findStudentByPhoneNumber(@PathVariable String phoneNumber){return studentService.findStudentByPhoneNumber(phoneNumber);}
 
-    @GetMapping("/getAll")
-    public List<Student> getAllStudents(){
-        return studentService.getAllStudents();
-    }
+    @GetMapping("/findByIdentityNo/{identityNumber}")
+    public Student findStudentIdentityNumber(@PathVariable String identityNumber){return studentService.findStudentByIdentityNumber(identityNumber);}
 
-    @GetMapping("/getById/{studentId}")
-    public Student getStudentById(@PathVariable int studentId){
-        return studentService.getStudentById(studentId);
-    }
+    @GetMapping("/findByName/{studentName}")
+    public Student findStudentStudentName(@PathVariable String studentName){return studentService.findStudentByName(studentName);}
+
+    @GetMapping("/findAll")
+    public List<Student> findAll(){return studentService.findAll();}
+
+    @PostMapping("/deleteByStudentId/{studentId}")
+    public void deleteByStudentId(@PathVariable int studentId){studentService.deleteByStudentId(studentId);}
+
+
 }

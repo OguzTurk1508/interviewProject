@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface ITownService {
 
-    List<Town> getAllTowns();
-    List<String> getAllTownNames();
-    Town getTownById(int townId);
+    List<Town> findAll();
+    Town findTownByTownId(int townId);
 }

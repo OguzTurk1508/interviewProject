@@ -18,20 +18,16 @@ public class TownService implements ITownService {
         this.townRepository = townRepository;
     }
 
+
     @Override
     @Transactional
-    public List<Town> getAllTowns() {
-        return townRepository.getAllTowns();
+    public List<Town> findAll() {
+        return townRepository.findAll();
     }
 
     @Override
     @Transactional
-    public List<String> getAllTownNames() {
-        return townRepository.getAllTownNames();
-    }
-
-    @Override
-    public Town getTownById(int townId) {
-        return townRepository.getTownById(townId);
+    public Town findTownByTownId(int townId) {
+        return townRepository.findTownByTownId(townId);
     }
 }

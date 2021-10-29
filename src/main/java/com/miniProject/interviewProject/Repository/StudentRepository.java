@@ -1,4 +1,4 @@
-
+/*
 package com.miniProject.interviewProject.Repository;
 
 import com.miniProject.interviewProject.Entities.Student;
@@ -59,3 +59,4 @@ public class StudentRepository implements IStudentRepository {
         return student;
     }
 }
+*/

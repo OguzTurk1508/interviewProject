@@ -5,6 +5,7 @@ import com.miniProject.interviewProject.Repository.ITownRepository;
 import com.miniProject.interviewProject.Service.TownService;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,6 +25,36 @@ public class TownServiceTest {
     @Mock
     ITownRepository townRepository;
 
+    @Test
+    public void findAllTownsTest(){
+        List<Town> townList = new ArrayList<Town>();
+        Town townA = new Town(1,1,"Karşıyaka");
+        Town townB = new Town(4,2,"Kadıköy");
+        Town townC = new Town(6,3,"Çankaya");
+
+        townList.add(townA);
+        townList.add(townB);
+        townList.add(townC);
+
+        when(townRepository.findAll()).thenReturn(townList);
+
+        List<Town> testList = townService.findAll();
+        Assert.assertEquals(3,testList.size());
+        Assert.assertEquals("Kadıköy",testList.get(1).getName());
+    }
+
+
+    @Test
+    public void findTownByTownIdTest(){
+        Town town = new Town(1,1,"Karşıyaka");
+
+        when(townRepository.findTownByTownId(1)).thenReturn(town);
+
+        Town returnedTown = townService.findTownByTownId(1);
+        Assert.assertEquals(1,returnedTown.getTownId());
+        Assert.assertEquals("Karşıyaka",returnedTown.getName());
+    }
+    /*
     @Test
     public void shouldGetAllTowns(){
         List<Town> townList = new ArrayList<Town>();
@@ -67,5 +98,7 @@ public class TownServiceTest {
         Assert.assertEquals(1,returnedTown.getTownId());
         Assert.assertEquals("Karşıyaka",returnedTown.getName());
     }
+
+     */
 
 }

@@ -19,18 +19,12 @@ public class CityService implements ICityService{
     }
 
     @Override
-    @Transactional
-    public List<City> getAllCities() {
-        return cityRepository.getAllCities();
+    public List<City> findAll() {
+        return cityRepository.findAll();
     }
 
     @Override
-    public List<String> getAllCityNames() {
-        return cityRepository.getAllCityNames();
-    }
-
-    @Override
-    public City getCityById(int cityId) {
-        return cityRepository.getCityById(cityId);
+    public City findCityByCityId(int cityId) {
+        return cityRepository.findCityByCityId(cityId);
     }
 }
