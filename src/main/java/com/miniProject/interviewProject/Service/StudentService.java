@@ -28,19 +28,31 @@ public class StudentService implements IStudentService{
 
     @Override
     @Transactional
-    public Student findStudentByName(String studentName){return this.studentDAO.findStudentByName(studentName);}
+    public List<Student> findStudentByName(String studentName){return this.studentDAO.findStudentByName(studentName);}
 
     @Override
     @Transactional
-    public Student findStudentByIdentityNumber(String idNo){return this.studentDAO.findStudentByIdentityNumber(idNo);}
+    public List<Student> findStudentByTownId(int townId) {
+        return this.studentDAO.findStudentByTownId(townId);
+    }
 
     @Override
     @Transactional
-    public Student findStudentByPhoneNumber(String phoneNo){return this.studentDAO.findStudentByPhoneNumber(phoneNo);}
+    public List<Student> findStudentByCityId(int cityId) {
+        return this.studentDAO.findStudentByCityId(cityId);
+    }
 
     @Override
     @Transactional
-    public List<Student> findAll(){return this.studentDAO.findAll();}
+    public List<Student> findStudentByIdentityNumber(String idNo){return this.studentDAO.findStudentByIdentityNumber(idNo);}
+
+    @Override
+    @Transactional
+    public List<Student> findStudentByPhoneNumber(String phoneNo){return this.studentDAO.findStudentByPhoneNumber(phoneNo);}
+
+    @Override
+    @Transactional
+    public List<Student> findAll(){return studentDAO.findAll();}
 
     @Override
     @Transactional

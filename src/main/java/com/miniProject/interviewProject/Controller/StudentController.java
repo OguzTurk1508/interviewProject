@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -26,19 +27,25 @@ public class StudentController {
     public Student findStudentById(@PathVariable int studentId){return studentService.findStudentByStudentId(studentId);}
 
     @GetMapping("/findByPhoneNumber/{phoneNumber}")
-    public Student findStudentByPhoneNumber(@PathVariable String phoneNumber){return studentService.findStudentByPhoneNumber(phoneNumber);}
+    public List<Student> findStudentByPhoneNumber(@PathVariable String phoneNumber){return studentService.findStudentByPhoneNumber(phoneNumber);}
 
     @GetMapping("/findByIdentityNo/{identityNumber}")
-    public Student findStudentIdentityNumber(@PathVariable String identityNumber){return studentService.findStudentByIdentityNumber(identityNumber);}
+    public List<Student> findStudentByIdentityNumber(@PathVariable String identityNumber){return studentService.findStudentByIdentityNumber(identityNumber);}
 
     @GetMapping("/findByName/{studentName}")
-    public Student findStudentStudentName(@PathVariable String studentName){return studentService.findStudentByName(studentName);}
+    public List<Student> findStudentByStudentName(@PathVariable String studentName){return studentService.findStudentByName(studentName);}
+
+    @GetMapping("/findByCityId/{cityId}")
+    public List<Student> findStudentByCityId(@PathVariable int cityId){return studentService.findStudentByCityId(cityId);}
+
+    @GetMapping("/findByTownId/{townId}")
+    public List<Student> findStudentByTownId(@PathVariable int townId){return studentService.findStudentByTownId(townId);}
+
 
     @GetMapping("/findAll")
     public List<Student> findAll(){return studentService.findAll();}
 
     @PostMapping("/deleteByStudentId/{studentId}")
     public void deleteByStudentId(@PathVariable int studentId){studentService.deleteByStudentId(studentId);}
-
 
 }

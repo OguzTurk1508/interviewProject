@@ -1,5 +1,7 @@
 package com.miniProject.interviewProject.Entities;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,18 +14,23 @@ public class Student {
     private int studentId;
 
     @Column(name = "CITY_ID")
+    @NotNull
     private int cityId;
 
     @Column(name = "TOWN_ID")
+    @NotNull
     private int townId;
 
     @Column(name = "IDENTITY_NUMBER")
+    @NotNull
     private String identityNumber;
 
     @Column(name = "NAME")
+    @NotNull
     private String name;
 
     @Column(name = "PHONE_NUMBER")
+    @NotNull
     private String phoneNumber;
 
     public Student(int studentId, int cityId, int townId, String identityNumber, String name, String phoneNumber) {

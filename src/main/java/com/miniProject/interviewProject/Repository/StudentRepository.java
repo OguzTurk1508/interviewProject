@@ -2,8 +2,10 @@
 package com.miniProject.interviewProject.Repository;
 
 import com.miniProject.interviewProject.Entities.Student;
+import com.miniProject.interviewProject.Filter.StudentFilter;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,52 +13,36 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class StudentRepository implements IStudentRepository {
+public class StudentRepository  {
 
-    @Autowired
-    public StudentRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    private IStudentRepository studentRepository;
+
+    public List<Student>
+
+    private Specification<Student> createSpecification(StudentFilter filter){
+        switch (filter.getOperator()){
+            case EQUAL:
+                return((root, query, criteriaBuilder) ->
+                        criteriaBuilder.equal(root.get(filter.getField()),
+                                castToRequiredType(root.get(filter.getField()).getJavaType(),filter.getValue())));
+        }
     }
 
-    private EntityManager entityManager;
-
-    @Override
-    @Transactional
-    public Student addStudent(Student student) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(student);
-        return student;
+    private Object castToRequiredType(Class fieldType, String value){
+        if(fieldType.isAssignableFrom(Double.class)){
+            return Double.valueOf(value);
+        }else if(fieldType.isAssignableFrom(Integer.class)){
+            return Integer.valueOf(value);
+        }else if(Enum.class.isAssignableFrom(fieldType)){
+            return Enum.valueOf(fieldType, value);
+        }
+        return null;
     }
 
-    @Override
-    @Transactional
-    public Student updateStudent(Student student) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(student);
-        return student;
+    private Specification<Student> nameLike(String name){
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Student_.NAME), "%"+name+"%");
     }
 
-    @Override
-    @Transactional
-    public void deleteStudent(int studentId) {
-        Session session = entityManager.unwrap(Session.class);
-        session.delete(getStudentById(studentId));
-    }
-
-    @Override
-    @Transactional
-    public List<Student> getAllStudents() {
-        Session session = entityManager.unwrap(Session.class);
-        List<Student> studentList = session.createQuery("from Student",Student.class).getResultList();
-        return studentList;
-    }
-
-    @Override
-    @Transactional
-    public Student getStudentById(int studentId){
-        Session session = entityManager.unwrap(Session.class);
-        Student student = session.get(Student.class,studentId);
-        return student;
-    }
 }
+
 */

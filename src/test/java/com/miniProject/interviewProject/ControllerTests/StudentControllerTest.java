@@ -65,11 +65,13 @@ class StudentControllerTest {
     @DisplayName("Find Student By ID")
     @Test
     public void givenStudentId_whenFindStudentById_thenFindStudentStatusOK() throws Exception{
-        Student student = new Student(1,1,1,"testIdentityNumber","testName","testPhoneNumber");
+        Student student = new Student(1,1,1,"testIdentityNumber",
+                "testName","testPhoneNumber");
 
         when(studentService.findStudentByStudentId(1)).thenReturn(student);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findById/"+student.getStudentId())
+        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findById/"+student
+                .getStudentId())
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name",is(student.getName())))
@@ -83,55 +85,69 @@ class StudentControllerTest {
     @DisplayName("Find Student By IdentityNumber")
     @Test
     public void givenStudentIdentityNo_whenFindStudentByIdentityNo_thenFindStudentStatusOK() throws Exception{
-        Student student = new Student(1,1,1,"testIdentityNumber","testName","testPhoneNumber");
+        Student student = new Student(1,1,1,"testIdentityNumber",
+                "testName","testPhoneNumber");
 
-        when(studentService.findStudentByIdentityNumber("testIdentityNumber")).thenReturn(student);
+        List<Student> studentList = new ArrayList<Student>();
+        studentList.add(student);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByIdentityNo/"+student.getIdentityNumber())
+        when(studentService.findStudentByIdentityNumber("testIdentityNumber"))
+                .thenReturn(studentList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByIdentityNo/"+studentList
+                .get(0).getIdentityNumber())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name",is(student.getName())))
-                .andExpect(jsonPath("$.phoneNumber",is(student.getPhoneNumber())))
-                .andExpect(jsonPath("$.identityNumber",is(student.getIdentityNumber())))
-                .andExpect(jsonPath("$.studentId",is(student.getStudentId())))
-                .andExpect(jsonPath("$.townId",is(student.getTownId())))
-                .andExpect(jsonPath("$.cityId",is(student.getCityId())));
+                .andExpect(jsonPath("$[0].name",is(student.getName())))
+                .andExpect(jsonPath("$[0].phoneNumber",is(student.getPhoneNumber())))
+                .andExpect(jsonPath("$[0].identityNumber",is(student.getIdentityNumber())))
+                .andExpect(jsonPath("$[0].studentId",is(student.getStudentId())))
+                .andExpect(jsonPath("$[0].townId",is(student.getTownId())))
+                .andExpect(jsonPath("$[0].cityId",is(student.getCityId())));
     }
 
     @DisplayName("Find Student By Name")
     @Test
     public void givenStudentName_whenFindStudentByName_thenFindStudentStatusOK() throws Exception{
-        Student student = new Student(1,1,1,"testIdentityNumber","testName","testPhoneNumber");
+        Student student = new Student(1,1,1,"testIdentityNumber",
+                "testName","testPhoneNumber");
 
-        when(studentService.findStudentByName("testName")).thenReturn(student);
+        List<Student> studentList = new ArrayList<Student>();
+        studentList.add(student);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByName/"+student.getName())
+        when(studentService.findStudentByName("testName")).thenReturn(studentList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByName/"+studentList.get(0)
+                .getName())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name",is(student.getName())))
-                .andExpect(jsonPath("$.phoneNumber",is(student.getPhoneNumber())))
-                .andExpect(jsonPath("$.identityNumber",is(student.getIdentityNumber())))
-                .andExpect(jsonPath("$.studentId",is(student.getStudentId())))
-                .andExpect(jsonPath("$.townId",is(student.getTownId())))
-                .andExpect(jsonPath("$.cityId",is(student.getCityId())));
+                .andExpect(jsonPath("$[0].name",is(student.getName())))
+                .andExpect(jsonPath("$[0].phoneNumber",is(student.getPhoneNumber())))
+                .andExpect(jsonPath("$[0].identityNumber",is(student.getIdentityNumber())))
+                .andExpect(jsonPath("$[0].studentId",is(student.getStudentId())))
+                .andExpect(jsonPath("$[0].townId",is(student.getTownId())))
+                .andExpect(jsonPath("$[0].cityId",is(student.getCityId())));
     }
 
     @DisplayName("Find Student By PhoneNumber")
     @Test
     public void givenStudentPhoneNumber_whenFindStudentByPhoneNumber_thenFindStudentStatusOK() throws Exception{
         Student student = new Student(1,1,1,"testIdentityNumber","testName","testPhoneNumber");
+        List<Student> studentList = new ArrayList<Student>();
+        studentList.add(student);
 
-        when(studentService.findStudentByPhoneNumber("testPhoneNumber")).thenReturn(student);
+        when(studentService.findStudentByPhoneNumber("testPhoneNumber")).thenReturn(studentList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByPhoneNumber/"+student.getPhoneNumber())
+        mockMvc.perform(MockMvcRequestBuilders.get(STUDENT_URL+"/findByPhoneNumber/"+studentList
+                .get(0).getPhoneNumber())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name",is(student.getName())))
-                .andExpect(jsonPath("$.phoneNumber",is(student.getPhoneNumber())))
-                .andExpect(jsonPath("$.identityNumber",is(student.getIdentityNumber())))
-                .andExpect(jsonPath("$.studentId",is(student.getStudentId())))
-                .andExpect(jsonPath("$.townId",is(student.getTownId())))
-                .andExpect(jsonPath("$.cityId",is(student.getCityId())));
+                .andExpect(jsonPath("$[0].name",is(student.getName())))
+                .andExpect(jsonPath("$[0].phoneNumber",is(student.getPhoneNumber())))
+                .andExpect(jsonPath("$[0].identityNumber",is(student.getIdentityNumber())))
+                .andExpect(jsonPath("$[0].studentId",is(student.getStudentId())))
+                .andExpect(jsonPath("$[0].townId",is(student.getTownId())))
+                .andExpect(jsonPath("$[0].cityId",is(student.getCityId())));
     }
 
     @DisplayName("Add Student")
